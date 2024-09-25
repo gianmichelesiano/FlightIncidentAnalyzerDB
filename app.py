@@ -63,6 +63,10 @@ def select_report_page():
         # Open and write to the file in the specified directory
         report_id = selected_report.split(' - ')[0]
         file_path = f"safety-scan-export-20240823-102233/{report_id}.json"
+        
+        # Sostituisci l'ID del report con il link completo
+        report_url = f"https://www.aeroinside.com/safetyscan/view/{report_id}"
+        st.write(f"Selected Report websit: {report_url}")
        
         # try:
         #     with open(file_path, 'r') as file:

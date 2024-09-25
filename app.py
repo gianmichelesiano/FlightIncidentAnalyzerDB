@@ -46,7 +46,7 @@ def main_page():
 def select_report_page():
     st.title("Select Report")
 
-    reports = PromptManager().get_reports()
+    reports = PromptManager().get_report()
 
 
     report_options = {f"{report[0]} - {report[1]}": report[3] for report in reports}

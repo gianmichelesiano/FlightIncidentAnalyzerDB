@@ -1,4 +1,4 @@
-PDF Flight Report Analyzer
+# PDF Flight Report Analyzer
 
 The "PDF Flight Report Analyzer" application utilizes advanced LLM models and the langchain framework to thoroughly analyze PDF files containing aircraft data and generate comprehensive reports.
 

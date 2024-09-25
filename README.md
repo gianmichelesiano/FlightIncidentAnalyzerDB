@@ -1,19 +1,22 @@
-PDF Aircraft Report Analyzer
+PDF Flight Report Analyzer
 
-The "PDF Aircraft Report Analyzer" application utilizes advanced LLM models and the langchain framework to thoroughly analyze PDF files containing aircraft data and generate comprehensive reports.
+The "PDF Flight Report Analyzer" application utilizes advanced LLM models and the langchain framework to thoroughly analyze PDF files containing aircraft data and generate comprehensive reports.
 
 ## Requirements
 
-- Python 3.7 or later
+- Python 3.7 or later (tested Python 3.12.6)
 - pip (Python package manager)
 
 ## Installation
 
 1. Clone the repository or download the project files.
+  ```
+  git clone https://github.com/gianmichelesiano/FlightIncidentAnalyzerDB
+  ```
 
 2. Navigate to the project directory:
    ```
-   cd path/to/project/directory
+   cd FlightIncidentAnalyzerDB
    ```
 
 3. Install the required dependencies:
@@ -33,4 +36,7 @@ The "PDF Aircraft Report Analyzer" application utilizes advanced LLM models and 
    streamlit run .\app.py  
    ```
 
-2. The user interface will open in your default web browser on port
+2. The user interface will open in your default web browser on port 8501
+   ```
+   Local URL: http://localhost:8501
+   ```

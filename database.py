@@ -1,7 +1,9 @@
 import sqlite3
 import os
+import csv
 
 DB_NAME = 'prompts.db'
+CSV_FILE_PATH = './safety_data_final_report.csv'
 
 def get_db_connection():
     conn = sqlite3.connect(DB_NAME)
@@ -11,6 +13,8 @@ def get_db_connection():
 def init_db():
     conn = get_db_connection()
     cursor = conn.cursor()
+    
+    # Create prompts table
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS prompts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -55,6 +59,23 @@ def init_db():
             ('safety_recommendations', 'List any safety recommendations suggested by the investigation')
         ]
         cursor.executemany('INSERT INTO prompts (key, value) VALUES (?, ?)', default_prompts)
+    
+    # Create report table
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS report (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        json_id INTEGER,
+        country TEXT NOT NULL,
+        report_type TEXT NOT NULL,
+        url TEXT NOT NULL
+    )
+    ''')
+    
+    # Load data from CSV file into report table
+    with open(CSV_FILE_PATH, 'r') as file:
+        reader = csv.reader(file)
+        report_data = [(int(row[0]), row[1], row[2], row[3]) for row in reader]
+        cursor.executemany('INSERT OR IGNORE  INTO report (json_id, country, report_type, url) VALUES (?, ?, ?, ?)', report_data)
     
     conn.commit()
     conn.close()

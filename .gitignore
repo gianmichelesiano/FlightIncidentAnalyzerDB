@@ -6,6 +6,7 @@ venv/
 .env.mak
 
 prompts.db
+safety-scan-export-20240823-102233/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

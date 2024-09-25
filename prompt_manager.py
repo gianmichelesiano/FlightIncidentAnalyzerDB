@@ -27,6 +27,21 @@ class PromptManager:
         prompts = {row['key']: row['value'] for row in cursor.fetchall()}
         conn.close()
         return prompts
+    
+    def get_reports(self):
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # Fetch all records from the report table
+        cursor.execute("SELECT json_id, country, report_type, url FROM report")
+        reports = cursor.fetchall()
+        #print("reports:", reports)
+        conn.close()
+        return reports
+        
+
+        # Close the database connection
+        
 
     def render_prompt_management(self):
         st.header("Manage Prompts")

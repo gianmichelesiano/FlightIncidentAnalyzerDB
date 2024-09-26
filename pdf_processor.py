@@ -9,6 +9,7 @@ import time
 import concurrent.futures
 import logging
 from functools import lru_cache
+#from langchain_ollama.llms import OllamaLLM
 
 
 #OPEN_AI_MODEL = os.getenv('OPEN_AI_MODEL')
@@ -27,7 +28,7 @@ def create_aircraft_report_model(prompts):
 
 @lru_cache(maxsize=100)
 def extract_chunk(chunk: str, AircraftReport, selected_model) -> BaseModel:
-    OPEN_AI_MODEL = selected_model
+    
     extraction_prompt_template = """
     Extract the following information from the given text:
     Text: {{text}}
@@ -43,7 +44,14 @@ def extract_chunk(chunk: str, AircraftReport, selected_model) -> BaseModel:
         extraction_prompt_template.format(fields=fields_str)
     )
 
-    llm = ChatOpenAI(temperature=0, model=OPEN_AI_MODEL).with_structured_output(AircraftReport)
+    if selected_model in ["gpt-4o", "gpt-4o-2024-08-06", "gpt-4o-mini"]:
+        print("open_ai")
+        OPEN_AI_MODEL = selected_model
+        llm = ChatOpenAI(temperature=0, model=OPEN_AI_MODEL).with_structured_output(AircraftReport)
+    else:
+        print("ollama")
+        #llm = OllamaLLM(model=selected_model)
+        
     extraction_chain = extraction_prompt | llm
 
     try:
@@ -53,7 +61,6 @@ def extract_chunk(chunk: str, AircraftReport, selected_model) -> BaseModel:
         return AircraftReport()
 
 def process_pdf(uploaded_file, prompts, selected_model):
-    print(f"Selected model: {selected_model}")
     start = time.time()
     logging.info(f"Starting extraction from uploaded PDF")
 
@@ -76,8 +83,8 @@ def process_pdf(uploaded_file, prompts, selected_model):
         # Use a set to collect unique values
         unique_values = set()
         for report in all_reports:
-            value = getattr(report, field)
-            if value:  # Only add non-empty values
+            value = getattr(report, field, None)
+            if isinstance(value, str) and value.strip():
                 # Split the value into sentences and add each sentence
                 sentences = value.split('. ')
                 unique_values.update(sentence.strip() for sentence in sentences if sentence.strip())

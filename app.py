@@ -32,10 +32,12 @@ def main_page():
 
     prompt_manager = PromptManager()
     uploaded_file = render_file_uploader()
-    render_prompt_manager(prompt_manager)
+    if not uploaded_file:
+        render_prompt_manager(prompt_manager)
     render_instructions()
 
     # Select the LLM model from the sidebar dropdown
+    #selected_model = st.sidebar.selectbox("Select LLM Model", ["gpt-4o", "gpt-4o-2024-08-06", "gpt-4o-mini", "llama3.2"])
     selected_model = st.sidebar.selectbox("Select LLM Model", ["gpt-4o", "gpt-4o-2024-08-06", "gpt-4o-mini"])
 
     if uploaded_file and st.button("Process PDF"):

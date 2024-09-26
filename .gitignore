@@ -4,6 +4,7 @@ venv/
 # env file
 .env
 .env.mak
+.env_test
 
 prompts.db
 safety-scan-export-20240823-102233/

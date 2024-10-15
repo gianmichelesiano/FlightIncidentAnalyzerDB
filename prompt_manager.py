@@ -36,9 +36,9 @@ class PromptManager:
         return prompts
     
     def get_report(self, selected_country):
+        print(f"Getting report for country: {selected_country}")
         conn = get_db_connection()
         cursor = conn.cursor()
-        # Ottimizzare la query per caricare 666667 record
         cursor.execute('SELECT json_id, country, report_type, url FROM report WHERE country = ?', (selected_country,))
         reports = cursor.fetchall()
         conn.close()

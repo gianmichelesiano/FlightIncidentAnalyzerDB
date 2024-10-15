@@ -78,6 +78,7 @@ def select_report_page():
     )
 
     if selected_country != "":
+        print(selected_country)
         reports = PromptManager().get_report(selected_country)
 
         report_options = {f"Report ID: {report[0]} - {report[1]} ": report[3] for report in reports}
@@ -133,7 +134,6 @@ Accuracy Score
 def compare_texts(target_text, test_text):
     llm = OpenAI(temperature=0)
     prompt = create_prompt_template()
-    print(prompt)
     chain = RunnableSequence(prompt | llm)
     result = chain.invoke({"target_text": target_text, "test_text": test_text})
     return result

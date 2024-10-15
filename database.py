@@ -2,7 +2,7 @@ import sqlite3
 import os
 import csv
 
-DB_NAME = 'prompts.db'
+DB_NAME = 'prompts2.db'
 CSV_FILE_PATH = './safety_data_final_report.csv'
 
 def check_csv_file_exists(file_path):

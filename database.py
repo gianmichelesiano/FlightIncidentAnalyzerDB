@@ -7,8 +7,10 @@ CSV_FILE_PATH = './safety_data_final_report.csv'
 
 def check_csv_file_exists(file_path):
     if not os.path.isfile(file_path):
-        #print(f"Error:  file CSV '{file_path}' not exist.")
+        print(f"Error:  file CSV '{file_path}' not exist.")
         return False
+    else:
+        return True 
 
 def get_db_connection():
     conn = sqlite3.connect(DB_NAME)
@@ -79,8 +81,11 @@ def init_db():
     if  check_csv_file_exists(CSV_FILE_PATH):
         with open(CSV_FILE_PATH, 'r') as file:
             reader = csv.reader(file)
-            report_data = [(int(row[0]), row[1], row[2], row[3]) for row in reader]
-            cursor.executemany('INSERT OR IGNORE  INTO report (json_id, country, report_type, url) VALUES (?, ?, ?, ?)', report_data)
+            cursor.execute('SELECT COUNT(*) FROM report')
+            if cursor.fetchone()[0] == 0:
+                print("adsa")
+                report_data = [(int(row[0]), row[1], row[2], row[3]) for row in reader]
+                cursor.executemany('INSERT OR IGNORE  INTO report (json_id, country, report_type, url) VALUES (?, ?, ?, ?)', report_data)
         
     conn.commit()
     conn.close()
